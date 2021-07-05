@@ -19,6 +19,6 @@ ENV GITHUB_TOKEN=
 ENV GIST_ID=
 ENV GIST_FILENAME=ip.txt
 ENV UPDATE_FREQ=1h
-ENV DEBUG=gistip
+ENV DEBUG=dynip:*
 
 CMD ["node", "index.js"]
