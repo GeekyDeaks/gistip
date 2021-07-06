@@ -13,6 +13,8 @@ let update_freq = process.env['UPDATE_FREQ'] || '1h'
 const gist = require('./gist')
 const goddady = require('./godaddy')
 
+let last_ip = ''
+
 async function poll() {
     let res = await fetch('https://api.ipify.org?format=json')
 
@@ -21,8 +23,12 @@ async function poll() {
     content.updated_by = os.hostname()
 
     debug(content)
-    await gist(content)
-    await goddady(content)
+
+    if( content && last_ip !== content.ip) {
+        await gist(content)
+        await goddady(content)
+        last_ip = content.ip
+    }
 
     debug('next update in %s', update_freq)
     setTimeout(poll, ms(update_freq))

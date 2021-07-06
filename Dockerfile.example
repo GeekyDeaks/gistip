@@ -13,12 +13,16 @@ RUN npm install
 # RUN npm ci --only=production
 
 # Bundle app source
-COPY index.js .
+COPY *.js ./
 
-ENV GITHUB_TOKEN=
-ENV GIST_ID=
-ENV GIST_FILENAME=ip.txt
-ENV UPDATE_FREQ=1h
-ENV DEBUG=dynip:*
+ENV GITHUB_TOKEN= \
+    GIST_ID= \
+    GIST_FILENAME=ip.txt \
+    GODADDY_HOST= \
+    GODADDY_KEY= \
+    GODADDY_SECRET= \
+    UPDATE_FREQ=1h \
+    DEBUG=dynip:*
+
 
 CMD ["node", "index.js"]
