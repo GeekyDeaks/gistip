@@ -19,25 +19,30 @@ async function update(content) {
         'Authorization': `sso-key ${key}:${secret}`,
         'Content-Type': 'application/json'
     }
-    const url = `https://api.godaddy.com/v1/domains/${domain}/records/A/${name}`
 
-    const body = [{
-        data: content.ip,
-        ttl
-    }]
+    let hosts = name.split(',')
 
-    debug('updating %s %j, %j', url, headers, body)
+    for(let host of hosts) {
 
-    let res = await fetch(url, {
-        method: 'put',
-        body: JSON.stringify(body),
-        headers
-    })
+        const url = `https://api.godaddy.com/v1/domains/${domain}/records/A/${host}`
 
+        const body = [{
+            data: content.ip,
+            ttl
+        }]
 
-    //let json = res.ok ? await res.json() : {}
+        debug('updating %s %j, %j', url, headers, body)
 
-    debug('updated %s.%s %s', name, domain, res.statusText)
+        let res = await fetch(url, {
+            method: 'put',
+            body: JSON.stringify(body),
+            headers
+        })
+
+        //let json = res.ok ? await res.json() : {}
+
+        debug('updated %s.%s %s', host, domain, res.statusText)
+    }
 
 }
 
